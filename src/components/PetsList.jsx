@@ -3,7 +3,7 @@
 export const PetsList = () => {
   return (
     <>
-       
+    <h2 className="p2 text-center">Listado Mascotas</h2>   
   <div className="row">
     <div className="col-md-6">
       <div className="bg-white shadow-md px-5 py-10 rounded-xl">
