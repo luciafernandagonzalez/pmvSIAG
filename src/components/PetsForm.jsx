@@ -1,6 +1,89 @@
 import { useState, useEffect } from "react";
 
-export const PetsForm = () => {
+export const PetsForm = ({mascotas, setMascotas, mascota, setMascota}) => {
+
+  const [nombreMascota, setNombreMascota] = useState('');
+  const [especieMascota, setEspecieMascota] = useState('');
+  const [razaMascota, setRazaMascota] = useState('');
+  const [edadMascota, setEdadMascota] = useState('');
+  const [fechaMascota, setFechaMascota] = useState('');
+  const [imagenMascota, setImagenMascota] = useState(null);
+  const [historiaClinicaMascota, setHistoriaClinicaMascota] = useState(null);
+  const [observacionesMascota, setObservacionesMascota] = useState('');
+  const [error, setError] = useState(false)
+
+   useEffect(() => {
+        if( Object.keys(mascota).length > 0  ) {
+            setNombreMascota(mascota.nombre)
+            setEspecieMascota(mascota.especie)
+            setRazaMascota(mascota.raza)
+            setEdadMascota(mascota.edad)
+            setFechaMascota(mascota.fecha)
+            setImagenMascota(mascota.imagen)
+            setHistoriaClinicaMascota(mascota.historial)
+            setObservacionesMascota(mascota.observaciones)
+        }
+    }, [mascota])
+
+     const generarId = () => {
+        const random = Math.random().toString(36).substr(2);
+        const fecha = Date.now().toString(36)
+        return random + fecha
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // Validación del Formulario
+        if( [ nombreMascota, especieMascota, razaMascota, edadMascota, fechaMascota, imagenMascota, historiaClinicaMascota, observacionesMascota ].includes('') ) {
+            console.log('Hay Al Menos un campo vacio')
+
+            setError(true)
+            return;
+        } 
+        
+        setError(false)
+
+
+        // Objeto de Paciente
+        const objetoMascota = {
+            nombreMascota, 
+            especieMascota, 
+            razaMascota, 
+            edadMascota, 
+            fechaMascota,
+            imagenMascota,
+            historiaClinicaMascota,
+            observacionesMascota
+        }
+
+        if(mascota.id) {
+            // Editando el Registro
+            objetoMascota.id = mascota.id
+            const mascotasActualizados = mascotas.map( mascotaState => mascotaState.id === mascota.id ? objetoMascota : mascotaState )
+
+            setMascotas(mascotasActualizados)
+            setMascota({})
+
+        } else {
+            // Nuevo registro
+            objetoMascota.id = generarId();
+            setMascotas([...mascotas, objetoMascota]);
+        }
+
+        // Reiniciar el form
+        setNombreMascota('')
+        setEspecieMascota('')
+        setRazaMascota('')
+        setEdadMascota('')
+        setFechaMascota('')
+        setImagenMascota(null)
+        setHistoriaClinicaMascota(null)
+        setObservacionesMascota('')
+      }
+
+
+
   return (
     <>
     <div className="row">
@@ -9,73 +92,100 @@ export const PetsForm = () => {
 
         <p>
           Añade Mascotas y {""}
-          <span>Administralos</span>
+          <span>Administralas</span>
         </p>
 
         <form
-        /*onSubmit={handleSubmit}*/
+        onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-4 mb-5"
         >
           <div className="mb-5">
-            <label htmlFor="mascota" className="d-block text-uppercase font-weight-bold text-gray-700">Nombre Mascota</label>
+            <label htmlFor="mascota" className="d-block font-weight-bold text-gray-700">Nombre de la Mascota</label>
             <input
               id="mascota"
               type="text"
               placeholder="Nombre de la Mascota"
-
-              /*value={nombre}*/
-              /*onChange={ (e) => setNombre(e.target.value) }*/
+              className="border border-2 w-100 p-2 mt-2 rounded-md"
+              value={nombreMascota}
+              onChange={ (e) => setNombreMascota(e.target.value) }
             />
           </div>
 
           <div className="mb-5">
-            <label htmlFor="propietario" className="d-block text-uppercase font-weight-bold text-gray-700">Raza</label>
+            <label htmlFor="mascota" className="d-block font-weight-bold text-gray-700">Especie de la Mascota</label>
             <input
-              id="propietario"
+              id="mascota"
+              type="text"
+              placeholder="Especie de la Mascota"
+              className="border border-2 w-100 p-2 mt-2 rounded-md"
+              value={especieMascota}
+              onChange={ (e) => setEspecieMascota(e.target.value) }
+            />
+          </div>
+
+          <div className="mb-5">
+            <label htmlFor="raza" className="d-block font-weight-bold text-gray-700">Raza</label>
+            <input
+              id="raza"
               type="text"
               placeholder="Raza"
-
-              /*value={propietario}
-                        onChange={ (e) => setPropietario(e.target.value) }*/
+              className="border border-2 w-100 p-2 mt-2 rounded-md"
+              value={razaMascota}
+              onChange={ (e) => setRazaMascota(e.target.value) }
             />
           </div>
 
           <div className="mb-5">
-            <label htmlFor="email" className="d-block text-uppercase font-weight-bold text-gray-700">Edad</label>
+            <label htmlFor="edad" className="d-block font-weight-bold text-gray-700">Edad</label>
             <input
               id="edad"
               type="number"
               placeholder="Edad mascota"
-
-              /*value={email}*/
-              /*onChange={ (e) => setEmail(e.target.value) }*/
+              className="border border-2 w-100 p-2 mt-2 rounded-md"
+              value={edadMascota}
+              onChange={ (e) => setEdadMascota(e.target.value) }
             />
           </div>
 
           <div className="mb-5">
-            <label htmlFor="alta" className="d-block text-uppercase font-weight-bold text-gray-700">Fecha Encontrada</label>
+            <label htmlFor="alta" className="d-block font-weight-bold text-gray-700">Fecha Encontrada</label>
             <input
               id="alta"
               type="date"
-
-              //value={fecha}
-              //onChange={ (e) => setFecha(e.target.value) }
+              className="border border-2 w-100 p-2 mt-2 rounded-md"
+               value={fechaMascota}
+              onChange={ (e) => setFechaMascota(e.target.value) }
             />
           </div>
 
           <div className="mb-5">
-            <label htmlFor="sintomas" className="d-block text-uppercase font-weight-bold text-gray-700">Observaciones</label>
+            <label htmlFor="imagen" className="d-block font-weight-bold text-gray-700">Adjuntar Imagen</label>
+            <input type="file"
+            className="border border-2 w-100 p-2 mt-2 rounded-md"
+            value={imagenMascota}/>           
+          </div>
+
+          <div className="mb-5">
+            <label htmlFor="clinica" className="d-block font-weight-bold text-gray-700">Adjuntar Historia Clinica</label>
+            <input type="file"
+            className="border border-2 w-100 p-2 mt-2 rounded-md"
+            value={historiaClinicaMascota}/>           
+          </div>
+
+          <div className="mb-5">
+            <label htmlFor="observaciones" className="d-block font-weight-bold text-gray-700">Observaciones</label>
             <textarea
               id="observaciones"
-              placeholder="Describe los Síntomas"
-              //value={sintomas}
-              //onChange={ (e) => setSintomas(e.target.value) }
+              placeholder="Añade alguna observacion"
+              className="border border-2 w-100 p-2 mt-2 rounded-md"
+              value={observacionesMascota}
+              onChange={ (e) => setObservacionesMascota(e.target.value) }
             />
           </div>
 
           <input
             type="submit"
-
-            //value={ paciente.id ? 'Editar Paciente' : 'Agregar Paciente' }
+            className="bg-indigo-600 w-100 p-3 text-white font-weight-bold rounded-md cursor-pointer transition-colors hover:bg-indigo-700 text-uppercase"
+            value={ mascota.id ? 'Editar Mascota' : 'Agregar Mascota' }
           />
         </form>
       </div>
