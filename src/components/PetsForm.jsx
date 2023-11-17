@@ -7,8 +7,8 @@ export const PetsForm = ({mascotas, setMascotas, mascota, setMascota}) => {
   const [razaMascota, setRazaMascota] = useState('');
   const [edadMascota, setEdadMascota] = useState('');
   const [fechaMascota, setFechaMascota] = useState('');
-  const [imagenMascota, setImagenMascota] = useState('');
-  const [historiaClinicaMascota, setHistoriaClinicaMascota] = useState('');
+  const [imagenMascota, setImagenMascota] = useState(null);
+  const [historiaClinicaMascota, setHistoriaClinicaMascota] = useState(null);
   const [observacionesMascota, setObservacionesMascota] = useState('');
   const [error, setError] = useState(false)
 
