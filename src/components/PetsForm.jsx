@@ -94,6 +94,8 @@ export const PetsForm = ({mascotas, setMascotas, mascota, setMascota}) => {
         setImagenMascota('')
         setHistoriaClinicaMascota('')
         setObservacionesMascota('')
+
+        
       }
 
 
@@ -198,7 +200,7 @@ export const PetsForm = ({mascotas, setMascotas, mascota, setMascota}) => {
 
           <input
             type="submit"
-            className="bg-indigo-600 w-100 p-3 text-white font-weight-bold rounded-md cursor-pointer transition-colors hover:bg-indigo-700 text-uppercase"
+            className="btn btn-primary btn-block text-uppercase"
             value={ mascota.id ? 'Editar Mascota' : 'Agregar Mascota' }
           />
         </form>

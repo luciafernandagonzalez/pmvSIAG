@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { AnimalsGallery } from "../components/AnimalsGallery";
+import { Table } from "../components/Table";
 import { HomePage, DashboardPage, LoginPage, RegisterPage, CRUDPets, Adoption, Footer } from "../pages";
 
 
@@ -17,6 +18,7 @@ export const AppRouter = () => {
           <Route path="adopcion" element={<Adoption/>} />
           <Route path="mascotasabm" element={<CRUDPets/>} />
           <Route path="galeria" element={<AnimalsGallery/>} />
+          <Route path="tabla" element={<Table/>} />
         </Route>
       </Routes>
       <Footer/>
