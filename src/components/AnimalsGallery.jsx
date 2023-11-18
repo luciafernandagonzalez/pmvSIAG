@@ -2,7 +2,7 @@ import '../../src/App.css';
 
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Sidebar} from '../Components/SideBarGallery';
+import {Sidebar} from '../components/SideBarGallery';
 
 const AnimalCard = ({ image, name, description }) => {
   return (
@@ -17,73 +17,22 @@ const AnimalCard = ({ image, name, description }) => {
   );
 };
 
-// Define el componente principal que renderizará las tarjetas de animales
-const AnimalAdoptionGallery = () => {
-  // Ejemplo de datos de animales (puedes reemplazarlos con datos reales de tu API o base de datos)
-  const animals = [
-    {
-      id: 1,
-      name: 'Max',
-      description: 'Adorable perro en busca de un hogar amoroso.',
-      image: 'https://picsum.photos/id/1/200/300',
-    },
-    {
-      id: 2,
-      name: 'Whiskers',
-      description: 'Gato cariñoso que busca un dueño cariñoso.',
-      image: 'https://picsum.photos/id/2/200/300',
-    },
-    // Agrega más animales según sea necesario
-    {
-      id: 3,
-      name: 'Buddy',
-      description: 'Cachorro juguetón en busca de una familia activa.',
-      image: 'https://picsum.photos/id/3/200/300',
-    },
-    {
-      id: 4,
-      name: 'Mittens',
-      description: 'Gatito curioso en busca de un hogar acogedor.',
-      image: 'https://picsum.photos/id/4/200/300',
-    },
-    {
-      id: 5,
-      name: 'Charlie',
-      description: 'Perro amigable y enérgico en busca de un compañero de juegos.',
-      image: 'https://picsum.photos/id/5/200/300',
-    },
-    {
-      id: 6,
-      name: 'Smokey',
-      description: 'Gato tranquilo y relajado en busca de un hogar sereno.',
-      image: 'https://picsum.photos/id/6/200/300',
-    },
-    {
-      id: 7,
-      name: 'Luna',
-      description: 'Perrita dulce y cariñosa en busca de amor y atención.',
-      image: 'https://picsum.photos/id/7/200/300',
-    },
-    {
-      id: 8,
-      name: 'Oreo',
-      description: 'Gato juguetón con un pelaje único en busca de diversión.',
-      image: 'https://picsum.photos/id/8/200/300',
-    }, 
-    {
-      id: 9,
-      name: 'Rocky',
-      description: 'Perro aventurero y leal en busca de un compañero para la vida.',
-      image: 'https://picsum.photos/id/9/200/300',
-    },
-    {
-      id: 10,
-      name: 'Mocha',
-      description: 'Gatita elegante y cariñosa en busca de un rincón acogedor.',
-      image: 'https://picsum.photos/id/237/200/300',
-    },
-    // Agrega más animales según sea necesario
-  ];
+export const AnimalsGallery = () => {
+  // Obtén los datos de animales desde el localStorage
+  const getAnimalsFromLocalStorage = () => {
+    const storedAnimals = localStorage.getItem('mascotas') ;
+    console.log(storedAnimals)
+    return storedAnimals ? JSON.parse(storedAnimals) : null;
+  };
+
+const animals = getAnimalsFromLocalStorage() || [{
+  id: 1,
+  nombre: 'Max',
+  description: 'Adorable perro en busca de un hogar amoroso.',
+  imagen: 'https://picsum.photos/id/1/200/300',
+},];
+
+console.log(animals)
 
   return (
     <div className="container mt-5">
@@ -97,9 +46,9 @@ const AnimalAdoptionGallery = () => {
             {animals.map((animal) => (
               <div key={animal.id} className="col">
                 <AnimalCard
-                  image={animal.image}
-                  name={animal.name}
-                  description={animal.description}
+                  image={animal.imagenMascota}
+                  name={animal.nombreMascota}
+                  description={animal.observacionesMascota}
                 />
               </div>
             ))}
@@ -109,5 +58,3 @@ const AnimalAdoptionGallery = () => {
     </div>
   );
 };
-
-export default AnimalAdoptionGallery;

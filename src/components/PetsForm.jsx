@@ -31,11 +31,25 @@ export const PetsForm = ({mascotas, setMascotas, mascota, setMascota}) => {
         return random + fecha
     }
 
+    const handleImageChange = (e) => {
+      const selectedImage = e.target.files[0];
+  
+      if (selectedImage) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const imageBase64 = reader.result;
+          setImagenMascota(imageBase64);
+        };
+  
+        reader.readAsDataURL(selectedImage);
+      }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
         // Validación del Formulario
-        if( [ nombreMascota, especieMascota, razaMascota, edadMascota, fechaMascota, imagenMascota, historiaClinicaMascota, observacionesMascota ].includes('') ) {
+        if( [ nombreMascota, especieMascota, razaMascota, edadMascota, fechaMascota, observacionesMascota ].includes('') ) {
             console.log('Hay Al Menos un campo vacio')
 
             setError(true)
@@ -161,7 +175,7 @@ export const PetsForm = ({mascotas, setMascotas, mascota, setMascota}) => {
             <label htmlFor="imagen" className="d-block font-weight-bold text-gray-700">Adjuntar Imagen</label>
             <input type="file"
             className="border border-2 w-100 p-2 mt-2 rounded-md"
-            value={imagenMascota}/>           
+            onChange={handleImageChange}/>           
           </div>
 
           <div className="mb-5">
