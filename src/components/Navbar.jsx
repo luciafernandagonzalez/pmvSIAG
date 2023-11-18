@@ -35,13 +35,18 @@ export const Navbar = () => {
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
             <Link className="nav-link" to="/">Home</Link>
-              
             </li>
             <li className="nav-item">
             <Link className="nav-link" to="/login">Iniciar Sesion</Link>
             </li>
             <li className="nav-item">
             <Link className="nav-link" to="/mascotasabm">Dar de Alta</Link>
+            </li>
+            <li className="nav-item">
+            <Link className="nav-link" to="/galeria">Galeria</Link>
+            </li>
+            <li className="nav-item">
+            <Link className="nav-link" to="/tabla">Tabla</Link>
             </li>
           </ul>
         </div>

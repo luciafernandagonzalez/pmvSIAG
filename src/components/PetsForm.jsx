@@ -45,6 +45,20 @@ export const PetsForm = ({mascotas, setMascotas, mascota, setMascota}) => {
       }
     };
 
+    const handleHistoriaClinicaChange = (e) => {
+      const selectedFile = e.target.files[0];
+  
+      if (selectedFile) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const historiaClinicaBase64 = reader.result;
+          setHistoriaClinicaMascota(historiaClinicaBase64);
+        };
+  
+        reader.readAsDataURL(selectedFile);
+      }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -184,7 +198,7 @@ export const PetsForm = ({mascotas, setMascotas, mascota, setMascota}) => {
             <label htmlFor="clinica" className="d-block font-weight-bold text-gray-700">Adjuntar Historia Clinica</label>
             <input type="file"
             className="border border-2 w-100 p-2 mt-2 rounded-md"
-            value={historiaClinicaMascota}/>           
+            onChange={handleHistoriaClinicaChange}/>           
           </div>
 
           <div className="mb-5">
