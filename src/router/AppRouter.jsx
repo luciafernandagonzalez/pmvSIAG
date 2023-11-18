@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { AnimalsGallery } from "../components/AnimalsGallery";
-import { HomePage, DashboardPage, LoginPage, RegisterPage, CRUDPets, Adoption } from "../pages";
+import { HomePage, DashboardPage, LoginPage, RegisterPage, CRUDPets, Adoption, Footer } from "../pages";
 
 
 export const AppRouter = () => {
@@ -9,6 +9,7 @@ export const AppRouter = () => {
     <>
       <Routes>
         <Route path="/" element={<Navbar />}>
+
           <Route index element={<HomePage/>}/>
           <Route path="login" element={<LoginPage/>}/>
           <Route path="register" element={<RegisterPage/>}/>
@@ -18,6 +19,7 @@ export const AppRouter = () => {
           <Route path="galeria" element={<AnimalsGallery/>} />
         </Route>
       </Routes>
+      <Footer/>
     </>
   );
 };
