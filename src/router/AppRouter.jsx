@@ -8,19 +8,20 @@ import { HomePage, DashboardPage, LoginPage, RegisterPage, CRUDPets, Adoption, F
 export const AppRouter = () => {
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Navbar />}>
-
-          <Route index element={<HomePage/>}/>
-          <Route path="login" element={<LoginPage/>}/>
-          <Route path="register" element={<RegisterPage/>}/>
-          <Route path="dashboard" element={<DashboardPage/>}/>
-          <Route path="adopcion" element={<Adoption/>} />
-          <Route path="mascotasabm" element={<CRUDPets/>} />
-          <Route path="galeria" element={<AnimalsGallery/>} />
-          <Route path="tabla" element={<Table/>} />
-        </Route>
-      </Routes>
+      <div style={{ paddingBottom: "70px", minHeight: "100vh" }}>
+        <Routes>
+          <Route path="/" element={<Navbar />}>
+              <Route index element={<HomePage/>}/>
+              <Route path="login" element={<LoginPage/>}/>
+              <Route path="register" element={<RegisterPage/>}/>
+              <Route path="dashboard" element={<DashboardPage/>}/>
+              <Route path="adopcion" element={<Adoption/>} />
+              <Route path="mascotasabm" element={<CRUDPets/>} />
+              <Route path="galeria" element={<AnimalsGallery/>} />
+              <Route path="tabla" element={<Table/>} />
+          </Route>
+        </Routes>
+      </div>
       <Footer/>
     </>
   );
