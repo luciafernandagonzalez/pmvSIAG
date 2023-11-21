@@ -2,8 +2,8 @@ export const PetsDetail = ({mascota, setMascota}) => {
   const{nombreMascota, especieMascota, razaMascota, fechaMascota, imagenMascota, historiaClinicaMascota, observacionesMascota} = mascota
   return (
     <>
-    <h2 className="p2 text-center">Listado Mascotas</h2>   
-  <div className="row">
+    
+  <div className="row ">
     <div className="col-md-6">
       <div className="bg-white shadow-md px-5 py-10 rounded-xl">
         <p className="font-bold mb-3 text-gray-700 text-uppercase">Nombre: {''}

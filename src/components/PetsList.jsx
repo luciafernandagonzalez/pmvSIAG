@@ -4,14 +4,15 @@ export const PetsList = ({mascotas, setMascota}) => {
   return (
     <>
          <div className="md:w-1/2 lg:w-3/5 md:h-screen overflow-y-scroll">
+         <h2 className="font-black text-3xl text-center">Listado Mascotas</h2>
+        <p className="text-xl mt-5 mb-10 p-3 text-center">
+            Administra tus Mascotas{''}
+            
+        </p>
 
 {mascotas && mascotas.length ? (
     <>
-        <h2 className="font-black text-3xl text-center">Listado Mascotas</h2>
-        <p className="text-xl mt-5 mb-10 text-center">
-            Administra tus {''}
-            <span className="text-indigo-600 font-bold ">Mascotas</span>
-        </p>
+        
 
         { mascotas.map( mascota => (
             <PetsDetail 

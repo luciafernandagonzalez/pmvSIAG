@@ -89,6 +89,8 @@ export const PetsForm = ({mascotas, setMascotas, mascota, setMascota}) => {
             // Editando el Registro
             objetoMascota.id = mascota.id
             const mascotasActualizados = mascotas.map( mascotaState => mascotaState.id === mascota.id ? objetoMascota : mascotaState )
+            
+
 
             setMascotas(mascotasActualizados)
             setMascota({})
@@ -97,6 +99,7 @@ export const PetsForm = ({mascotas, setMascotas, mascota, setMascota}) => {
             // Nuevo registro
             objetoMascota.id = generarId();
             setMascotas([...mascotas, objetoMascota]);
+            Swal.fire('Mascota agregada', 'La mascota se ha agregado exitosamente', 'success');
         }
 
         // Reiniciar el form
