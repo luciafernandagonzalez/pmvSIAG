@@ -1,5 +1,13 @@
 export const PetsDetail = ({mascota, setMascota}) => {
   const{nombreMascota, especieMascota, razaMascota, fechaMascota, imagenMascota, historiaClinicaMascota, observacionesMascota} = mascota
+
+  const handleEliminar = () => {
+    const respuesta = confirm('Deseas eliminar este paciente?');
+
+    if(respuesta) {
+        eliminarPaciente(id)
+    }
+}
   return (
     <>
     
@@ -25,12 +33,12 @@ export const PetsDetail = ({mascota, setMascota}) => {
           <button 
             type="button"
             className="btn btn-primary"
-            
+            onClick={() => setPaciente(paciente)}
           >Editar</button>
           <button 
             type="button"
             className="btn btn-danger"
-            
+            onClick={handleEliminar}
           >Eliminar</button>
         </div>
       </div>

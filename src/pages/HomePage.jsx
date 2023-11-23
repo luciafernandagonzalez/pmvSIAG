@@ -74,11 +74,11 @@ export const HomePage = () => {
       {/* Sección de Voluntariado */}
       <div className="row mt-4">
         <div className="col">
-          <h2>¡Voluntariado!</h2>
+          <h2>¡Ayudanos a mejorar!</h2>
           <p>
-            Únete a nosotros como voluntario para ayudar a cuidar y mejorar la vida de los animales. Tu ayuda hace la diferencia.
+            Dejanos tu feedback sobre mejoras que podrian ser utiles y nos darian una mejor perfomance de la aplicacion.
           </p>
-          <button className="btn btn-success">Únete como Voluntario</button>
+          <button className="btn btn-success">Llenar formulario</button>
         </div>
       </div>
 

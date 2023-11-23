@@ -19,11 +19,11 @@ export const CRUDPets = () => {
     localStorage.setItem('mascotas', JSON.stringify( mascotas ));
   }, [mascotas])
 
-  /*const eliminarMascota = id => {
-    const pacientesActualizados = pacientes.filter( paciente => paciente.id !== id);
-    setPacientes(pacientesActualizados)
+  const eliminarMascota = id => {
+    const mascotasActualizados = mascotas.filter( mascota => mascota.id !== id);
+    setMascotas(mascotasActualizados)
   }
-  */
+  
 
   return (
     <>
@@ -40,6 +40,7 @@ export const CRUDPets = () => {
           <PetsList
           mascotas={mascotas}
           setMascota={setMascota}
+          eliminarMascota={eliminarMascota}
            />
         </div>
       </div>

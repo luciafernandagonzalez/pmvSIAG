@@ -27,7 +27,8 @@ export const Navbar = () => {
 
      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">SIAG</a>
+      
+        <a className="navbar-brand" href="/">SIAG</a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -36,17 +37,17 @@ export const Navbar = () => {
             <li className="nav-item">
             <Link className="nav-link" to="/">Home</Link>
             </li>
-            <li className="nav-item">
+           {/*} <li className="nav-item">
             <Link className="nav-link" to="/login">Iniciar Sesion</Link>
             </li>
             <li className="nav-item">
-            <Link className="nav-link" to="/mascotasabm">Dar de Alta</Link>
+            <Link className="nav-link" to="/mascotasabm">Gestion</Link>
+            </li>*/}
+            <li className="nav-item">
+            <Link className="nav-link" to="/galeria">Galeria Adopcion</Link>
             </li>
             <li className="nav-item">
-            <Link className="nav-link" to="/galeria">Galeria</Link>
-            </li>
-            <li className="nav-item">
-            <Link className="nav-link" to="/tabla">Tabla</Link>
+            <Link className="nav-link" to="/tabla">Usuario</Link>
             </li>
           </ul>
         </div>

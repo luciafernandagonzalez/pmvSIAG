@@ -20,26 +20,27 @@ export const Table = () => {
   <tbody>
     <tr>
       <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-      <td>@mdo</td>
-      <td>@mdo</td>
+      <td>Negrito</td>
+      <td>Perro</td>
+      <td>Labrador</td>
+      <td><span className="badge bg-success">Aprobado</span></td>
+      <td><button className="btn btn-info btn-sm m-2">Ver</button><button className="btn btn-danger btn-sm">Eliminar</button></td>
     </tr>
     <tr>
       <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-      <td>@fat</td>
-      <td>@fat</td>
+      <td>Luna</td>
+      <td>Gato</td>
+      <td>Desconocido</td>
+      <td><span className="badge bg-danger">Rechazado</span></td>
+      <td><button className="btn btn-info btn-sm m-2">Ver</button><button className="btn btn-danger btn-sm">Eliminar</button></td>
     </tr>
     <tr>
       <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-      <td>@twitter</td>
-      <td>@twitter</td>
+      <td>Lupita</td>
+      <td>Perro</td>
+      <td>Desconocido</td>
+      <td><span className="badge bg-warning">Pendiente</span></td>
+      <td><button className="btn btn-info btn-sm m-2">Ver</button><button className="btn btn-danger btn-sm">Eliminar</button></td>
     </tr>
   </tbody>
 </table>
