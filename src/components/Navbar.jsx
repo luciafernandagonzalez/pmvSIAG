@@ -37,12 +37,12 @@ export const Navbar = () => {
             <li className="nav-item">
             <Link className="nav-link" to="/">Home</Link>
             </li>
-           {/*} <li className="nav-item">
+           <li className="nav-item">
             <Link className="nav-link" to="/login">Iniciar Sesion</Link>
             </li>
             <li className="nav-item">
             <Link className="nav-link" to="/mascotasabm">Gestion</Link>
-            </li>*/}
+            </li>
             <li className="nav-item">
             <Link className="nav-link" to="/galeria">Galeria Adopcion</Link>
             </li>
