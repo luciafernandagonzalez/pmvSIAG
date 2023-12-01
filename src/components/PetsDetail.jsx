@@ -1,54 +1,84 @@
-export const PetsDetail = ({mascota, setMascota}) => {
-  const{nombreMascota, especieMascota, razaMascota, fechaMascota, imagenMascota, historiaClinicaMascota, observacionesMascota} = mascota
+export const PetsDetail = ({
+  mascota,
+  setMascota,
+  setMascotas,
+  eliminarMascota,
+  editarMascota,
+}) => {
+  const {
+    nombreMascota,
+    especieMascota,
+    razaMascota,
+    fechaMascota,
+    imagenMascota,
+    historiaClinicaMascota,
+    observacionesMascota,
+  } = mascota;
 
   const handleEliminar = () => {
-    const respuesta = confirm('Deseas eliminar este paciente?');
+    const respuesta = confirm("Deseas eliminar esta mascota?");
 
-    if(respuesta) {
-        eliminarPaciente(id)
+    if (respuesta) {
+      eliminarMascota(mascota.id, setMascotas);
+      // setMascota(mascota);
     }
-}
+  };
+
+  const handleEditar = () => {
+    setMascota(mascota);
+    editarMascota(mascota);
+  };
   return (
     <>
-    
-  <div className="row ">
-    <div className="col-md-6">
-      <div className="bg-white shadow-md px-5 py-10 rounded-xl">
-        <p className="font-bold mb-3 text-gray-700 text-uppercase">Nombre: {''}
-          <span className="font-normal normal-case">{nombreMascota}</span>
-        </p>
-        <p className="font-bold mb-3 text-gray-700 text-uppercase">Especie: {''}
-          <span className="font-normal normal-case">{especieMascota}</span>
-        </p>
-        <p className="font-bold mb-3 text-gray-700 text-uppercase">Raza: {''}
-          <span className="font-normal normal-case">{razaMascota}</span>
-        </p>
-        <p className="font-bold mb-3 text-gray-700 text-uppercase">Fecha Encontrada: {''}
-          <span className="font-normal normal-case">{fechaMascota}</span>
-        </p>
-        <p className="font-bold mb-3 text-gray-700 text-uppercase">Observaciones: {''}
-          <span className="font-normal normal-case">{observacionesMascota}</span>
-        </p>
-        <div className="d-flex justify-content-between mt-10">
-          <button 
-            type="button"
-            className="btn btn-primary"
-            onClick={() => setPaciente(paciente)}
-          >Editar</button>
-          <button 
-            type="button"
-            className="btn btn-danger"
-            onClick={handleEliminar}
-          >Eliminar</button>
+      <div className="row ">
+        <div className="col-md-6">
+          <div className="bg-white shadow-md p-4 rounded-xl mb-4">
+            <h4 className="font-bold text-gray-700 mb-3" style={{ maxWidth: '250px', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+              Detalles de la Mascota
+            </h4>
+            <div className="mb-3">
+              <p className="font-semibold text-gray-700">
+                Nombre: {mascota.nombre}
+              </p>
+            </div>
+            <div className="mb-3">
+              <p className="font-semibold text-gray-700">
+                Especie: {mascota.especie}
+              </p>
+            </div>
+            <div className="mb-3">
+              <p className="font-semibold text-gray-700">
+                Raza: {mascota.raza}
+              </p>
+            </div>
+            <div className="mb-3">
+              <p className="font-semibold text-gray-700">
+                Observaciones: {mascota.observacion}
+              </p>
+            </div>
+            <div className="mt-4">
+              <button
+                type="button"
+                // className="btn btn-primary"
+                className="btn btn-primary me-2"
+                onClick={handleEditar}
+              >
+                Editar
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={handleEliminar}
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-6">
+          {/* Cards with submitted info from local storage can be displayed here */}
         </div>
       </div>
-    </div>
-    <div className="col-md-6">
-      {/* Cards with submitted info from local storage can be displayed here */}
-    </div>
-  </div>
-
-
     </>
-  )
-}
+  );
+};
