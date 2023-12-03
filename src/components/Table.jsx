@@ -231,9 +231,14 @@ export const Table = () => {
           </div>
         </Modal.Body>
         <Modal.Footer>
+          {selectedMascota?.estadoAdopcion === 0 ?
           <Button variant="success" onClick={handleAdoptar}>
-            Aceptar solicitud
-          </Button>
+          Aceptar solicitud
+        </Button> :
+        <Button variant="grey" style={{ pointerEvents: 'none'}}>
+        Solicitud aceptada
+      </Button>
+          }
           <Button variant="danger" onClick={handleClose}>
             Cerrar
           </Button>
