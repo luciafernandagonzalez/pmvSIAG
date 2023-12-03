@@ -10,56 +10,66 @@ import {
 import { db } from "../firebase";
 import { Modal, Button } from "react-bootstrap"; // Importa el componente Modal de react-bootstrap
 
+//funcion para obtener las solicitudes de adopcion
+const obtenerAdopciones = async (setAdopciones, setLoading) => {
+  try {
+    const adopcionesSnapshot = await getDocs(collection(db, "adopciones"));
+    setLoading(true);
+
+    const adopcionesData = [];
+    for (const docu of adopcionesSnapshot.docs) {
+      const adopcion = docu.data();
+
+      //obtener datos de mascotas utilizando el id almacenado en el array
+      const mascotaSnapshot = await getDoc(
+        doc(db, "mascotas", adopcion.idMascota.toString())
+      );
+      const mascotaData = mascotaSnapshot.data();
+
+      //agregar datos de mascota a la solicitud
+      if (mascotaData) {
+        const adopcionconMascota = {
+          id: docu.id,
+          estadoAdopcion: adopcion.estado,
+          ...adopcion,
+          idMascota: adopcion.idMascota,
+          nombreMascota: mascotaData.nombre,
+          especieMascota: mascotaData.especie,
+          imagenMascota: mascotaData.imagen,
+          razaMascota: mascotaData.raza,
+          observacionMascota: mascotaData.observacion,
+        };
+        adopcionesData.push(adopcionconMascota);
+      }
+    }
+
+    setAdopciones(adopcionesData);
+    setLoading(false);
+  } catch (error) {
+    console.error("Error al obtener las adopciones", error);
+    setLoading(false);
+  }
+};
+
 export const Table = () => {
   const [adopciones, setAdopciones] = useState([]);
   const [selectedMascota, setSelectedMascota] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [modalUpdateTrigger, setModalUpdateTrigger] = useState(false);
 
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => {
+    setShow(false);
+    // obtenerAdopciones(setAdopciones, setLoading);
+  };
+  const handleShow = () => {
+    setShow(true);
+    // obtenerAdopciones(setAdopciones, setLoading);
+  };
 
   useEffect(() => {
-    //funcion para obtener las solicitudes de adopcion
-    const obtenerAdopciones = async () => {
-      try {
-        const adopcionesSnapshot = await getDocs(collection(db, "adopciones"));
 
-        const adopcionesData = [];
-        for (const docu of adopcionesSnapshot.docs) {
-          const adopcion = docu.data();
-
-          //obtener datos de mascotas utilizando el id almacenado en el array
-          const mascotaSnapshot = await getDoc(
-            doc(db, "mascotas", adopcion.idMascota.toString())
-          );
-          const mascotaData = mascotaSnapshot.data();
-
-          //agregar datos de mascota a la solicitud
-          if (mascotaData) {
-            const adopcionconMascota = {
-              id: docu.id,
-              estadoAdopcion: adopcion.estado,
-              ...adopcion,
-              idMascota: adopcion.idMascota,
-              nombreMascota: mascotaData.nombre,
-              especieMascota: mascotaData.especie,
-              imagenMascota: mascotaData.imagen,
-              razaMascota: mascotaData.raza,
-              observacionMascota: mascotaData.observacion,
-            };
-            adopcionesData.push(adopcionconMascota);
-          }
-        }
-
-        setAdopciones(adopcionesData);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error al obtener las adopciones", error);
-      }
-    };
-
-    obtenerAdopciones();
+    obtenerAdopciones(setAdopciones, setLoading);
   }, []);
 
   const eliminarAdopcion = async (idMasc, idAdopcion) => {
@@ -117,6 +127,75 @@ export const Table = () => {
       console.error("Error general:", error);
     }
   };
+
+  const handleAdoptar = async () => {
+    // console.log(selectedMascota);
+    setShow(false);
+    try {
+      let mascotaActualizada = false;
+      let adopcionActualizada = false;
+      //Cambiar estado de adopcion a 1 (adoptado)
+      try {
+        await updateDoc(doc(db, "adopciones", selectedMascota.id), {
+          estado: 1,
+        });
+        adopcionActualizada = true;
+        console.log("Estado de adopcion actualizada correctamente");
+      } catch (error) {
+        console.log("Error al actualizar adopcion", error);
+      }
+
+      //Cambiar estado de mascota a 1 (adoptado)
+      try {
+        await updateDoc(doc(db, "mascotas", selectedMascota.idMascota), {
+          estado: 1,
+        });
+        mascotaActualizada = true;
+        console.log("Estado de mascota actualizada correctamente");
+      } catch (error) {
+        console.log("Error al actualizar estado de mascota: ", error);
+      }
+
+      if (!mascotaActualizada || !adopcionActualizada) {
+        //si alguna no se completo revertir
+        console.log("Error: no se pudieron completar ambas acciones");
+        if (!mascotaActualizada) {
+          try {
+            await updateDoc(doc(db, "mascotas", selectedMascota.idMascota), {
+              estado: 2,
+            });
+            console.log("Estado de mascota restaurado correctamente");
+          } catch (error) {
+            console.error("Error al restaurar estado de mascota: ", error);
+          }
+        }
+
+        if (!adopcionActualizada) {
+          try {
+            await updateDoc(doc(db, "adopciones", selectedMascota.id), {
+              estado: 0,
+            });
+            console.log("Estado de adopcion restaurado correctamente");
+          } catch (error) {
+            console.error("Error al adopcion estado de mascota: ", error);
+          }
+        }
+      }
+      setModalUpdateTrigger(prevState => !prevState);
+      await obtenerAdopciones(setAdopciones, setLoading);
+      // handleClose();
+      // setShow(false);
+
+    } catch (error) {
+      console.error("Error general: ", error);
+    }
+  };
+
+  // useEffect(() => {
+  //   // Aquí puedes realizar acciones que quieras llevar a cabo
+  //   // cada vez que selectedMascota cambie, como mostrar el Modal.
+  //   handleShow(); // Llamada a la función handleShow cuando selectedMascota cambie
+  // }, [selectedMascota, modalUpdateTrigger]); 
   // };
 
   return (
@@ -142,11 +221,20 @@ export const Table = () => {
               <h5 className="card-text">
                 Observaciones: {selectedMascota?.observacionMascota}
               </h5>
+              <h5 className="card-text">
+                Estado:{" "}
+                {selectedMascota?.estadoAdopcion === 0
+                  ? "En curso"
+                  : "Adoptado"}
+              </h5>
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="success" onClick={handleAdoptar}>
+            Aceptar solicitud
+          </Button>
+          <Button variant="danger" onClick={handleClose}>
             Cerrar
           </Button>
         </Modal.Footer>
@@ -158,7 +246,9 @@ export const Table = () => {
         <p>Facundo Gramajo</p>
 
         {loading ? (
-          <p style={{ color: '#ff0000', fontWeight: 'bold' }}>Cargando adopciones...</p>
+          <p style={{ color: "#ff0000", fontWeight: "bold" }}>
+            Cargando adopciones...
+          </p>
         ) : (
           <table className="table ">
             <thead>

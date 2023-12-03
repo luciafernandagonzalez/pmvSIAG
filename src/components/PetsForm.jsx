@@ -33,8 +33,6 @@ export const PetsForm = ({
   });
 
   useEffect(() => {
-    console.log("pdsadas");
-    console.log("Mascota a editar en PetsForm:ppp", mascotaToEdit);
     if (mascotaToEdit && Object.keys(mascotaToEdit).length > 0) {
       //Lleno el form con los datos de la mascota elegida a editar
       setFormData({
@@ -247,8 +245,6 @@ export const PetsForm = ({
                 type="number"
                 placeholder="Edad mascota"
                 className="border border-2 w-100 p-2 mt-2 rounded-md"
-                // value={edadMascota}
-                // onChange={(e) => setEdadMascota(e.target.value)}
                 value={formData.edadMascota}
                 onChange={(e) =>
                   setFormData({ ...formData, edadMascota: e.target.value })
@@ -311,8 +307,6 @@ export const PetsForm = ({
                 id="observaciones"
                 placeholder="Añade alguna observacion"
                 className="border border-2 w-100 p-2 mt-2 rounded-md"
-                // value={observacionesMascota}
-                // onChange={(e) => setObservacionesMascota(e.target.value)}
                 value={formData.observacionesMascota}
                 onChange={(e) =>
                   setFormData({
@@ -328,13 +322,16 @@ export const PetsForm = ({
               className="btn btn-primary btn-block text-uppercase"
               value={mascotaToEdit ? "Editar Mascota" : "Agregar Mascota"}
             />
-<div>
-  {/* Mensaje de error: faltan llenar campos */}
-      {error && (
-        <p style={{ color: 'red', fontWeight: '', marginBottom: '5px'}}>Llenar todos los campos obligatorios</p>
-      )}
-</div>
-            
+            <div>
+              {/* Mensaje de error: faltan llenar campos */}
+              {error && (
+                <p
+                  style={{ color: "red", fontWeight: "", marginBottom: "5px" }}
+                >
+                  Llenar todos los campos obligatorios
+                </p>
+              )}
+            </div>
           </form>
         </div>
       </div>
