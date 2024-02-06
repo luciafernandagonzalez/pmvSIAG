@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { Modal, Button } from "react-bootstrap"; // Importa el componente Modal de react-bootstrap
+import Mascota from "../models/mascota";
 
 //funcion para obtener las solicitudes de adopcion
 const obtenerAdopciones = async (setAdopciones, setLoading) => {
@@ -28,18 +29,30 @@ const obtenerAdopciones = async (setAdopciones, setLoading) => {
 
       //agregar datos de mascota a la solicitud
       if (mascotaData) {
-        const adopcionconMascota = {
+
+        const mascota = new Mascota(
+          adopcion.idMascota,
+          mascotaData.nombre,
+          mascotaData.raza,
+          mascotaData.edad,
+          mascotaData.especie,
+          mascotaData.historiaClinica,
+          mascotaData.imagen,
+          mascotaData.observacion,
+          mascotaData.estado
+        );
+        // console.log(mascota);
+
+        const adopcionMascota = {
           id: docu.id,
           estadoAdopcion: adopcion.estado,
           ...adopcion,
-          idMascota: adopcion.idMascota,
-          nombreMascota: mascotaData.nombre,
-          especieMascota: mascotaData.especie,
-          imagenMascota: mascotaData.imagen,
-          razaMascota: mascotaData.raza,
-          observacionMascota: mascotaData.observacion,
+          // idMascota: mascota,
+          mascota: mascota,
         };
-        adopcionesData.push(adopcionconMascota);
+        // console.log(adopcionMascota)
+
+        adopcionesData.push(adopcionMascota);
       }
     }
 
@@ -207,19 +220,19 @@ export const Table = () => {
         <Modal.Body>
           <div className="card">
             <img
-              src={selectedMascota?.imagenMascota}
+              src={selectedMascota?.mascota.imagen}
               className="card-img-top img-thumbnail"
               alt="Mascota"
             />
             <div className="card-body">
               <h5 className="card-title">
-                Especie: {selectedMascota?.especieMascota}
+                Especie: {selectedMascota?.mascota.especie}
               </h5>
               <h5 className="card-text">
-                Raza: {selectedMascota?.razaMascota}
+                Raza: {selectedMascota?.mascota.raza}
               </h5>
               <h5 className="card-text">
-                Observaciones: {selectedMascota?.observacionMascota}
+                Observaciones: {selectedMascota?.mascota.observacion}
               </h5>
               <h5 className="card-text">
                 Estado:{" "}
@@ -270,9 +283,9 @@ export const Table = () => {
               {adopciones.map((adopcion, index) => (
                 <tr key={index}>
                   <th scope="row">{index + 1}</th>
-                  <td>{adopcion.nombreMascota}</td>
-                  <td>{adopcion.especieMascota}</td>
-                  <td>{adopcion.razaMascota}</td>
+                  <td>{adopcion.mascota.nombre}</td>
+                  <td>{adopcion.mascota.especie}</td>
+                  <td>{adopcion.mascota.raza}</td>
                   <td>
                     {/* <span className="badge bg-success">Aprobado</span> */}
                     <span

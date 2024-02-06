@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { db } from "../firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { doc, collection, addDoc, setDoc } from "firebase/firestore";
+import Mascota from "../models/mascota";
 
 export const PetsForm = ({
   mascotas,
@@ -11,14 +12,14 @@ export const PetsForm = ({
   onGuardarMascotaEditada,
   actualizarListaMascotas,
 }) => {
-  const [nombreMascota, setNombreMascota] = useState("");
-  const [especieMascota, setEspecieMascota] = useState("");
-  const [razaMascota, setRazaMascota] = useState("");
-  const [edadMascota, setEdadMascota] = useState("");
-  const [fechaMascota, setFechaMascota] = useState("");
+  // const [nombreMascota, setNombreMascota] = useState("");
+  // const [especieMascota, setEspecieMascota] = useState("");
+  // const [razaMascota, setRazaMascota] = useState("");
+  // const [edadMascota, setEdadMascota] = useState("");
+  // const [fechaMascota, setFechaMascota] = useState("");
   const [imagenMascota, setImagenMascota] = useState(null);
   const [historiaClinicaMascota, setHistoriaClinicaMascota] = useState(null);
-  const [observacionesMascota, setObservacionesMascota] = useState("");
+  // const [observacionesMascota, setObservacionesMascota] = useState("");
   const [error, setError] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -26,7 +27,6 @@ export const PetsForm = ({
     especieMascota: "",
     razaMascota: "",
     edadMascota: "",
-    fechaMascota: "",
     imagenMascota: null,
     historiaClinicaMascota: null,
     observacionesMascota: "",
@@ -82,9 +82,15 @@ export const PetsForm = ({
       const reader = new FileReader();
       reader.onloadend = () => {
         const historiaClinicaBase64 = reader.result;
+        // setHistoriaClinicaMascota(historiaClinicaBase64);
+        setFormData({
+          ...formData,
+          historiaClinicaMascota: historiaClinicaBase64,
+          // nombreImagen: selectedImage.name,
+        });
+
         setHistoriaClinicaMascota(historiaClinicaBase64);
       };
-
       reader.readAsDataURL(selectedFile);
     }
   };
@@ -97,7 +103,8 @@ export const PetsForm = ({
       !formData.especieMascota ||
       !formData.razaMascota ||
       !formData.edadMascota ||
-      !formData.imagenMascota
+      !formData.imagenMascota ||
+      !formData.observacionesMascota
     ) {
       // console.log("error");
       setError(true);
@@ -112,28 +119,30 @@ export const PetsForm = ({
     } else {
       //logica para agregar nueva mascota
       try {
-        console.log("ffddfs");
-        const docRef = await addDoc(collection(db, "mascotas"), {
-          nombre: formData.nombreMascota,
-          especie: formData.especieMascota,
-          raza: formData.razaMascota,
-          edad: formData.edadMascota,
-          estado: 0,
-          // fechacota: formData.fechaMascota,
-          imagen: formData.imagenMascota,
-          historiaClinica: formData.historiaClinicaMascota,
-          observacion: formData.observacionesMascota,
-        });
-        console.log("mascota agregada");
-        const nuevaMascota = {
-          ...formData,
-          id: docRef.id,
-          nombre: docRef.nombre,
-          especie: docRef.especie,
-          imagen: docRef.imagen,
-          estado: docRef.estado,
-        };
-        setMascotas([...mascotas, nuevaMascota]);
+        const idUnico = generarId();
+        const nuevaMascota = new Mascota(
+          100,
+          formData.nombreMascota,
+          formData.razaMascota,
+          formData.edadMascota,
+          formData.especieMascota,
+          formData.historiaClinicaMascota,
+          formData.imagenMascota,
+          formData.observacionesMascota
+        );
+          const docRef = await addDoc(collection(db, "mascotas"), {
+            // id: idUnico,
+            edad: nuevaMascota.edad,
+            nombre: nuevaMascota.nombre,
+            especie: nuevaMascota.especie,
+            raza: nuevaMascota.raza,
+            estado: nuevaMascota.estado,
+            imagen: nuevaMascota.imagen,
+            historiaClinica: nuevaMascota.historiaClinica,
+            observacion: nuevaMascota.observacion,
+          });
+          nuevaMascota.idMascota = docRef.id;
+        setMascotas(...mascotas, nuevaMascota);
 
         //limpiar campos del form
         setFormData({
@@ -146,6 +155,7 @@ export const PetsForm = ({
           historiaClinicaMascota: null,
           observacionesMascota: "",
         });
+        // console.log(mascotas);
 
         // actualizarListaMascotas(...mascotas, nuevaMascota);
       } catch (error) {
@@ -251,23 +261,6 @@ export const PetsForm = ({
                 }
               />
             </div>
-
-            {/* <div className="mb-5">
-              <label
-                htmlFor="alta"
-                className="d-block font-weight-bold text-gray-700"
-              >
-                Fecha Encontrada
-              </label>
-              <input
-                id="alta"
-                type="date"
-                className="border border-2 w-100 p-2 mt-2 rounded-md"
-                value={fechaMascota}
-                onChange={(e) => setFechaMascota(e.target.value)}
-              />
-            </div> */}
-
             <div className="mb-5">
               <label
                 htmlFor="imagen"

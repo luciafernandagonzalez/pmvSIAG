@@ -2,6 +2,7 @@ import { PetsDetail } from "../components/PetsDetail";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from '../firebase'; // Importa la instancia de Firestore
+import Mascota from "../models/mascota";
 
 
 export const PetsList = ({ setMascota, eliminarMascota, editarMascota, actualizarListaMascotas}) => {
@@ -12,16 +13,35 @@ export const PetsList = ({ setMascota, eliminarMascota, editarMascota, actualiza
          const obtenerMascotas = async () => {
              try {
                 const querySnapshot = await getDocs(collection(db, "mascotas"));
-                const mascotasData = querySnapshot.docs.map(doc => ({
-                  id: doc.id,
-                  nombre: doc.nombre,
-                  especie: doc.especie,
-                  raza: doc.raza,
-                  observacion: doc.observacion,
-                  imagen: doc.imagen,
-                  estado: doc.estado,
-                  ...doc.data()
-                }));
+
+                // const mascotasData = querySnapshot.docs.map(doc => ({
+                //   id: doc.id,
+                //   nombre: doc.nombre,
+                //   especie: doc.especie,
+                //   raza: doc.raza,
+                //   observacion: doc.observacion,
+                //   imagen: doc.imagen,
+                //   estado: doc.estado,
+                //   ...doc.data()
+                // }));
+
+                const mascotasData = querySnapshot.docs.map(doc => {
+                  const data = doc.data();
+                  // console.log(data);
+                  // console.log(doc.id);
+                  return new Mascota(
+                    doc.id,
+                    data.nombre,
+                    data.raza,
+                    data.edad,
+                    data.especie,
+                    data.historiaClinica,
+                    data.imagen,
+                    data.observacion,
+                    data.estado
+                  );
+                });
+
                 const mascotasNoAdoptadas = mascotasData.filter(
                   (mascota) => mascota.estado === 0
                 );
@@ -49,7 +69,7 @@ export const PetsList = ({ setMascota, eliminarMascota, editarMascota, actualiza
           <>
             {mascotas.map((mascota) => (
               <PetsDetail
-                key={mascota.id}
+                key={mascota.idMascota}
                 mascota={mascota}
                 setMascota={setMascota}
                 setMascotas={setMascotas}

@@ -1,11 +1,11 @@
-// import firebase from 'firebase/app';
-// import 'firebase/firestore'; // Importa los servicios que vayas a utilizar, por ejemplo, Firestore
-// import { firestore } from 'firebase/firestore';
-// Import the functions you need from the SDKs you need
-import { collection, query, where } from "firebase/firestore";
+// import { collection, query, where } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+// import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from 'firebase/firestore';
+//  import 'firebase/auth';
+//  import firebase from 'firebase/app';
+//  import 'firebase/firestore';
+import { getAuth } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,10 +22,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
+const auth = getAuth(app);
+// const auth = firebase.auth();
  const db = getFirestore(app)
 
-export { db };
-// export const db = firebase.firestore(); // Inicializa Firestore u otro servicio que necesites
-// Puedes exportar otros servicios de Firebase de la misma manera si los necesitas
-
+export { auth, db };

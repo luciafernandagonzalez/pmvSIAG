@@ -1,6 +1,28 @@
-
+import { useState } from "react";
+import { auth } from "../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      // const userCredential = await auth.signInWithEmailAndPassword(email, password);
+      signInWithEmailAndPassword(auth, email, password).then((auth) => {
+        console.log(auth);
+        if(auth) {
+          //si es success redireccionar
+          Navigate('/');
+        }
+      })
+      //usuario autenticado correctamente, redirigir o realizar acciones correspondientes
+      console.log("Usuario autenticado:", userCredential.user);
+    } catch (error) {
+      //manejo de errores
+      console.error("Error al iniciar sesion:", error.message);
+    }
+  }
 
   return (
    
@@ -17,9 +39,9 @@ export const LoginPage = () => {
                   <input
                     type="text"
                     className="form-control"
-                    id="username"
-                    
-                   
+                    id="username"  
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)}               
                     required
                   />
                 </div>
@@ -29,8 +51,8 @@ export const LoginPage = () => {
                     type="password"
                     className="form-control"
                     id="password"
-                    
-                   
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)} 
                     required
                   />
                 </div>
@@ -38,7 +60,7 @@ export const LoginPage = () => {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    
+                    onClick={handleLogin}                    
                   >
                     Iniciar Sesión
                   </button>

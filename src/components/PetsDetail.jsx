@@ -18,8 +18,9 @@ export const PetsDetail = ({
   const handleEliminar = () => {
     const respuesta = confirm("Deseas eliminar esta mascota?");
 
+    console.log("prueba", mascota);
     if (respuesta) {
-      eliminarMascota(mascota.id, setMascotas);
+      eliminarMascota(mascota.idMascota, setMascotas);
       // setMascota(mascota);
     }
   };

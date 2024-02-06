@@ -21,7 +21,7 @@ export const CRUDPets = () => {
   // const [triggerUpdate, setTriggerUpdate] = useState(false);
 
   useEffect(() => {
-    console.log("pruebaeffect curd:", mascotaToEdit);
+    console.log("pruebaeffect curd:", mascotas);
     // Obtener datos de Firestore al cargar el componente
     const obtenerMascotas = async () => {
       try {
@@ -32,10 +32,9 @@ export const CRUDPets = () => {
           ...doc.data(),
         }));
         // console.log(mascotasData);
-        setMascotas(mascotasData.filter(
-          (mascota) => mascota.estado === 0
-        ));
-        // setMascotas(mascotasData);
+        setMascotas(mascotasData.filter((mascota) => mascota.estado === 0));
+        setMascotas(mascotasData);
+        console.log(mascotas);
       } catch (error) {
         console.error("Error al obtener mascotas", error);
       }
@@ -45,15 +44,15 @@ export const CRUDPets = () => {
   }, [db]);
 
   const eliminarMascota = async (id, setMascotas) => {
+    console.log(mascotas);
     try {
       await deleteDoc(doc(db, "mascotas", id));
-      console.log("objeto borrado correctamente");
-      //Actualizar mascota despues de eliminar
-      const mascotasActualizados = mascotas.filter(
-        (mascota) => mascota.id !== id
+      console.log("objeto borrado correctamente", id);
+
+      //Actualizar mascotas despues de eliminar
+      setMascotas((prevMascotas) =>
+        prevMascotas.filter((mascota) => mascota.idMascota !== id)
       );
-      console.log("mascotas actualizadas:", mascotasActualizados);
-      setMascotas(mascotasActualizados);
     } catch (error) {
       console.error("error al borrar mascota", error);
     }
@@ -68,10 +67,11 @@ export const CRUDPets = () => {
 
   const handleGuardarMascotaEditada = async (mascotaEditada) => {
     try {
+      console.log(",,", mascotaToEdit);
       //logica para actualizar
-      const mascotaRef = doc(db, "mascotas", mascotaToEdit.id);
+      const mascotaRef = doc(db, "mascotas", mascotaToEdit.idMascota);
       console.log("mascotaref: ", mascotaRef);
-      console.log(",,", mascotaEditada);
+
       // await updateDoc(mascotaRef, mascotaEditada);
       await updateDoc(mascotaRef, {
         nombre: mascotaEditada.nombreMascota,
