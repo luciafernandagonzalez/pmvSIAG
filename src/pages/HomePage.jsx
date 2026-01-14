@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { db } from "../firebase";
-import { getDocs, collection, query, where } from "firebase/firestore";
+import { supabase } from "../db/supabase";
 
 export const HomePage = () => {
   const [mascotas, setMascotas] = useState([]);
@@ -9,25 +8,15 @@ export const HomePage = () => {
     //obtener imagenes de bd y almacenarlas en estado
     const fetchMascotas = async () => {
       try {
-        // const mascotasSnapshot = await getDocs(collection(db, "mascotas"));
-        const q = query(collection(db, "mascotas"), where("estado", "==", 2));
-        const mascotasSnapshot = await getDocs(q);
+        const { data, error } = await supabase
+          .from("mascota")
+          .select("*")
+          .eq("estado", 2); // mascotas adoptadas
 
-        const mascotasData = mascotasSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          nombre: doc.nombre,
-          especie: doc.especie,
-          raza: doc.raza,
-          observacion: doc.observacion,
-          historiaClinica: doc.historiaClinica,
-          imagen: doc.imagen,
-          estado: doc.estado,
-          ...doc.data(),
-        }));
-
-        setMascotas(mascotasData);
+        if (error) throw error;
+        setMascotas(data);
       } catch (error) {
-        console.error("Error fetching mascotas", error);
+        console.error("Error fetching mascotas", error.message);
       }
     };
 
@@ -51,7 +40,7 @@ export const HomePage = () => {
         </div>
         <div className="row">
           {mascotas.map((mascota) => (
-            <div className="col-md-4 mb-4" key={mascota.id}>
+            <div className="col-md-4 mb-4" key={mascota.id_mascota}>
               <div className="card">
                 <img
                   src={mascota.imagen}

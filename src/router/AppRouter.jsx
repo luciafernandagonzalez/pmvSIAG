@@ -1,28 +1,62 @@
 import { Route, Routes } from "react-router-dom";
-import { Navbar } from "../components/Navbar";
-import { AnimalsGallery } from "../components/AnimalsGallery";
-import { Table } from "../components/Table";
-import { HomePage, DashboardPage, LoginPage, RegisterPage, CRUDPets, Adoption, Footer } from "../pages";
-
+import { Navbar } from "../components/layout/Navbar";
+import {
+  HomePage,
+  LoginPage,
+  CRUDMascotasPage,
+  CRUDUsuariosPage,
+  EstadoAdopcionesPage,
+  MascotasGaleriaPage,
+  PublicacionCompartidaPage
+} from "../pages";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 export const AppRouter = () => {
   return (
-    <>
-      <div style={{ paddingBottom: "70px", minHeight: "100vh" }}>
-        <Routes>
-          <Route path="/" element={<Navbar />}>
-              <Route index element={<HomePage/>}/>
-              <Route path="login" element={<LoginPage/>}/>
-              <Route path="register" element={<RegisterPage/>}/>
-              <Route path="dashboard" element={<DashboardPage/>}/>
-              <Route path="adopcion" element={<Adoption/>} />
-              <Route path="mascotasabm" element={<CRUDPets/>} />
-              <Route path="galeria" element={<AnimalsGallery/>} />
-              <Route path="tabla" element={<Table/>} />
-          </Route>
-        </Routes>
-      </div>
-      <Footer/>
-    </>
+    <Routes>
+      {/* Layout */}
+      <Route path="/" element={<Navbar />}>
+      {/* Default page  */}
+      <Route index element={<HomePage />} />
+
+      
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/gallery" element={<MascotasGaleriaPage />} />
+      <Route path="/gallery/:id" element={<MascotasGaleriaPage />} />
+      <Route path="/gallery/:id" element={<PublicacionCompartidaPage />} />
+
+      <Route
+        path="/application"
+        element={
+          <ProtectedRoute allowedRoles={[1]}>
+            <EstadoAdopcionesPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/users"
+        element={
+          <ProtectedRoute allowedRoles={[1]}>
+            <CRUDUsuariosPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/user/home"
+        element={
+          <ProtectedRoute allowedRoles={[2]}>
+            <HomePage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route path="*" element={<HomePage />} />
+
+      <Route path="/mascotasabm" element={<CRUDMascotasPage />} />
+      </Route>
+    </Routes>
   );
 };
+
