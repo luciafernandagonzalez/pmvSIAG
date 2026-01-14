@@ -7,7 +7,7 @@ export const MascotaCard = ({ mascota }) => {
   const compartirMascota = () => {
     const url = `${window.location.origin}/gallery/${mascota.id_mascota}`;
 
-    const texto = `🐾 ¡Mirá esta mascota en adopción!
+    const texto = `🐾 ¡¡Mirá esta mascota en adopción!!
       Nombre: ${mascota.nombre}
       Especie: ${mascota.especie || "No especificado"}
       Raza: ${mascota.raza || "No especificada"}
