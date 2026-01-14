@@ -5,7 +5,7 @@ export const MascotaCard = ({ mascota }) => {
   const navigate = useNavigate();
 
   const compartirMascota = () => {
-    const url = `${window.location.origin}/gallery/${mascota.id_mascota}`;
+    const url = `${window.location.origin}/api/share/${mascota.id_mascota}`;
 
     const texto = `🐾 ¡¡Mirá esta mascota en adopción!!
       Nombre: ${mascota.nombre}
