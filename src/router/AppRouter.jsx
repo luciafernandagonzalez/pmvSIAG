@@ -22,7 +22,7 @@ export const AppRouter = () => {
       
       <Route path="/login" element={<LoginPage />} />
       <Route path="/gallery" element={<MascotasGaleriaPage />} />
-      <Route path="/gallery/:id" element={<MascotasGaleriaPage />} />
+      {/* <Route path="/gallery/:id" element={<MascotasGaleriaPage />} /> */}
       <Route path="/gallery/:id" element={<PublicacionCompartidaPage />} />
 
       <Route
